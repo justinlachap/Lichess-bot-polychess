@@ -1,16 +1,17 @@
 import lichess.api
 
+TEAM = 'polychess-mtl'
+TEAM_LENGHT = sum(1 for _ in lichess.api.users_by_team(TEAM))
+
 
 def get_top_n_members(category, n):
-    users = lichess.api.users_by_team('polychess-mtl')
+    users = lichess.api.users_by_team(TEAM)
     return sorted([(u.get('perfs', {}).get(category, {}).get('rating'), u['id']) for u in users], key=lambda x: x[0])[-n:]
 
 
 def get_personnal_ranking(username, category=""):
-    users = lichess.api.users_by_team('polychess-mtl')
-    team_lenght = sum(1 for _ in users)
     if category:
-        return team_lenght - [tup[1] for tup in get_top_n_members(category, team_lenght)].index(username)
+        return TEAM_LENGHT - [tup[1] for tup in get_top_n_members(category, TEAM_LENGHT)].index(username)
 
     else:
         ranks = [["bullet"], ["blitz"], ["rapid"]]
@@ -20,13 +21,13 @@ def get_personnal_ranking(username, category=""):
 
 
 def get_online_members():
-    users = lichess.api.users_by_team('polychess-mtl')
+    users = lichess.api.users_by_team(TEAM)
     users_status = list(lichess.api.users_status([u['id'] for u in users]))
     return [u['id'] for u in users_status if u.get('online')]
 
 
 # print(get_top_n_members("rapid", 2))
-print(get_online_members())
+# print(get_online_members())
 # print(get_personnal_ranking("justinlachap"))
 # print(get_top_n_members("blitz", 6))
 # print(get_top_n_members("rapid", 6))
