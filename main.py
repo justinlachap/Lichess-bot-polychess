@@ -19,7 +19,14 @@ def get_personnal_ranking(username, category=""):
         return ranks
 
 
-print(get_top_n_members("rapid", 15))
+def get_online_members():
+    users = lichess.api.users_by_team('polychess-mtl')
+    users_status = list(lichess.api.users_status([u['id'] for u in users]))
+    return [u['id'] for u in users_status if u.get('online')]
+
+
+# print(get_top_n_members("rapid", 2))
+print(get_online_members())
 # print(get_personnal_ranking("justinlachap"))
 # print(get_top_n_members("blitz", 6))
 # print(get_top_n_members("rapid", 6))
