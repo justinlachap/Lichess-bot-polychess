@@ -13,10 +13,7 @@ def get_personnal_ranking(username, category=""):
     if category:
         return TEAM_LENGHT - [tup[1] for tup in get_top_n_members(category, TEAM_LENGHT)].index(username)
 
-    ranks = [["bullet"], ["blitz"], ["rapid"]]
-    for i, cat in enumerate(ranks):
-        ranks[i].append(get_personnal_ranking(username, cat[0]))
-    return ranks
+    return [(cat, get_personnal_ranking(username, cat)) for cat in ["bullet", "blitz", "rapid"]]
 
 
 def get_online_members():
@@ -27,7 +24,7 @@ def get_online_members():
 
 # print(get_top_n_members("rapid", 2))
 # print(get_online_members())
-# print(get_personnal_ranking("justinlachap"))
+print(get_personnal_ranking("justinlachap"))
 # print(get_top_n_members("blitz", 6))
 # print(get_top_n_members("rapid", 6))
 # print(get_top_n_members("bullet", 6))
