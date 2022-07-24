@@ -1,9 +1,9 @@
 import asyncio
 import discord
 from discord import colour
+from discord import Embed
 from discord.ext import commands
 import sys
-from embedFactory import EmbedFactory
 
 from lichessHelper import get_personnal_ranking, get_top_n_members
 
