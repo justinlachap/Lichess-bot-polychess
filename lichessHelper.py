@@ -6,12 +6,14 @@ TEAM_LENGHT = sum(1 for _ in api.users_by_team(TEAM))
 
 def get_top_n_members(category, n):
     users = api.users_by_team(TEAM)
-    return sorted([(u.get('perfs', {}).get(category, {}).get('rating'), u['id']) for u in users], key=lambda x: x[0])[-n:]
+    return sorted([(u.get('perfs', {}).get(str(category), {}).get('rating'), u['id']) for u in users], key=lambda x: x[0])[-int(n):]
+
+
 
 
 def get_personnal_ranking(username, category=""):
     if category:
-        return TEAM_LENGHT - [tup[1] for tup in get_top_n_members(category, TEAM_LENGHT)].index(username)
+        return [(category, TEAM_LENGHT - [tup[1] for tup in get_top_n_members(category, TEAM_LENGHT)].index(username))]
 
     return [(cat, get_personnal_ranking(username, cat)) for cat in ["bullet", "blitz", "rapid"]]
 
@@ -23,9 +25,4 @@ def get_online_members():
 
 
 if __name__ == "__main__":
-    # print(get_top_n_members("rapid", 2))
-    # print(get_online_members())
-    print(get_personnal_ranking("justinlachap"))
-    print(get_top_n_members("blitz", 6))
-    # print(get_top_n_members("rapid", 6))
-    # print(get_top_n_members("bullet", 6))
+    pass
