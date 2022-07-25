@@ -21,6 +21,7 @@ def get_online_members():
     users_status = list(api.users_status([u['id'] for u in users]))
     return [u['id'] for u in users_status if u.get('online')]
 
+
 if __name__ == "__main__":
     # print(get_top_n_members("rapid", 2))
     # print(get_online_members())
