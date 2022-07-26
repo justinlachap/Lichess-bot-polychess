@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord import Embed
 
 
-from lichessHelper import get_personnal_ranking, get_top_n_members
+from lichessHelper import get_personnal_ranking, get_top_n_members, get_online_members
 
 TOKEN = ""
 
@@ -34,6 +34,14 @@ async def top(ctx, n, category):
                   colour=colour.Color.blue(), description="")
     for i, (rating, username) in enumerate(reversed(get_top_n_members(category, n))):
         embed.add_field(name=f"{i+1}.{username}", value=rating, inline=False)
+    await ctx.send(embed=embed)
+
+@bot.command(help="get online members on Lichess")
+async def online(ctx):
+    embed = Embed(title=f"Online players",
+                  colour=colour.Color.blue(), description="")
+    for username in get_online_members():
+        embed.add_field(inline=False, value=username, name="Username:")
     await ctx.send(embed=embed)
 
 bot.run(TOKEN)
