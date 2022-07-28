@@ -33,15 +33,17 @@ async def top(ctx, n, category):
     embed = Embed(title=f"Top players in {category}",
                   colour=colour.Color.blue(), description="")
     for i, (rating, username) in enumerate(reversed(get_top_n_members(category, n))):
-        embed.add_field(name=f"{i+1}.{username}", value=rating, inline=False)
+        embed.add_field(name=f"{i+1}. {username}", value=rating, inline=False)
     await ctx.send(embed=embed)
+
 
 @bot.command(help="get online members on Lichess")
 async def online(ctx):
     embed = Embed(title=f"Online players",
                   colour=colour.Color.blue(), description="")
-    for username in get_online_members():
-        embed.add_field(inline=False, value=username, name="Username:")
+    embed.add_field(value=get_online_members(), name="Usernames:")
+    # for username in get_online_members():
+    #     embed.add_field(inline=False, value=username, name="Username:")
     await ctx.send(embed=embed)
 
 bot.run(TOKEN)
